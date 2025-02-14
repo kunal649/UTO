@@ -7,6 +7,7 @@ import Login from "./pages/login.jsx";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/navbar.jsx";
 import AppointmentPopup from "./components/AppointmentPopup.jsx";
+import Podcasts from "./pages/Podcasts.jsx";
 
 export default function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/discussion" element={<Discussion />} />
+          <Route path="/services" element={<Podcasts />} />
           <Route
             path="/OurDoctors"
             element={
