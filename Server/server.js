@@ -63,7 +63,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
     // Successful authentication, redirect to discussion or any desired page
-    res.redirect("http://localhost:5173/discussion"); // ill go for discussion
+  //  res.redirect("http://localhost:5173/discussion"); // ill go for discussion
   }
 );
 
