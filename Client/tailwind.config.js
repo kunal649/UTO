@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         Jingle: ["Jingle", "sans-serif"],
+        Amsterline: ["Amsterline", "sans-serif"],
       },
     },
   },

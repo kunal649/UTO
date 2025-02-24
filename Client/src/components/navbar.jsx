@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../App.css";
 import {
   FaHome,
   FaUserMd,
@@ -14,13 +15,9 @@ const Navbar = () => {
       <div className="fixed top-0 left-0 right-0 z-50 ">
         <div className="container mx-auto flex justify-between items-center py-4 px-6">
           {/* Logo Section */}
-          <div
-            className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600"
-            style={{ fontFamily: "'Akaya Telivigala', static" }}
-          >
+          <div className="text-2xl font-roboto-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600">
             <Link to="/" className="flex items-center">
-              <img src="/logo.png" className="h-8 w-8 mr-2" />
-              UnTaboo
+              Untaboo
             </Link>
           </div>
 

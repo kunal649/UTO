@@ -34,16 +34,20 @@ section {
 
 .animate-fadeInH1 {
   animation: fadeIn 1s ease forwards;
-  animation-delay: 0s; 
+  animation-delay: 0s;
 }
 
 .animate-fadeInP {
   animation: fadeIn 1s ease forwards;
-  animation-delay: 1s; 
-  opacity: 0; 
+  animation-delay: 1s;
+  opacity: 0;
 }
 
 @font-face {
   font-family: "Jingle";
-  src: url("/public/Jingle.otf") format("truetype");
+  src: url("/Jingle.otf") format("opentype");
+}
+@font-face {
+  font-family: "Amsterline";
+  src: url("/Amsterline.ttf") format("truetype");
 }
