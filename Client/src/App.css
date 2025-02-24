@@ -1,44 +1,53 @@
 #root {
-    height:100%;
-    width:100%;
-    margin:0;
-    padding:0;
-    font-family: "Poiret One", serif;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Poiret One", serif;
+}
+html {
+  scroll-behavior: smooth;
+}
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+section {
+  scroll-snap-align: start;
+}
+.noi {
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: italic;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  html {
-    scroll-behavior: smooth;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .pointer-events-auto {
-    pointer-events: auto;
-  }
-  
-  section {
-    scroll-snap-align: start;
-  }
-  .noi{
-  
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style:italic;
-  }
-  
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .animate-fadeInH1 {
-    animation: fadeIn 1s ease forwards;
-  }
-  
-  .animate-fadeInP {
-    animation: fadeIn 1s ease forwards;
-    animation-delay: 1s; 
-  }
-  
+}
+
+.animate-fadeInH1 {
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 0s;
+}
+
+.animate-fadeInP {
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 1s;
+  opacity: 0;
+}
+
+@font-face {
+  font-family: "Jingle";
+  src: url("/Jingle.otf") format("opentype");
+}
+@font-face {
+  font-family: "Amsterline";
+  src: url("/Amsterline.ttf") format("truetype");
+}
