@@ -8,17 +8,16 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: "",
     resave: false,
     saveUninitialized: true,
   })
@@ -26,22 +25,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Passport Configuration
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: "",
+      clientSecret:"",
       callbackURL: "http://localhost:5000/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
       // user profile ko database m save kr <here>
-      done(null, profile); // abhi just return krde profile
+      done(null, profile); 
     }
   )
 );
 
-// Serialize user into session
 passport.serializeUser((user, done) => {
   done(null, user);
 });
@@ -50,7 +47,6 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-// Routes
 app.get(
   "/auth/google",
   passport.authenticate("google", {
@@ -62,12 +58,10 @@ app.get(
   "/auth/google/redirect",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    // Successful authentication, redirect to discussion or any desired page
-    res.redirect("http://localhost:5173/discussion"); // ill go for discussion
+    res.redirect("http://localhost:5173/discussion"); 
   }
 );
 
-// Get user endpoint
 app.get("/auth/user", (req, res) => {
   if (req.isAuthenticated()) {
     res.json({ user: req.user });
@@ -76,7 +70,6 @@ app.get("/auth/user", (req, res) => {
   }
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
