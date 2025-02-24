@@ -4,29 +4,26 @@ import "../index.css";
 export default function Home() {
   return (
     <div className="itshome">
-      {/* Section 1 - Sundarta yhi pe shuru yhi pe khatam */}
-      <section className="relative h-screen opacity-90">
+      {/* Section 1 */}
+      <section className="relative h-screen opacity-90 flex items-center justify-center">
         <video
-          className="absolute inset-0 w-full h-full object-cover"
-          src="../assets/home.mp4"
+          className="absolute inset-0 w-full h-full object-cover -z-10"
+          src="/assets/home.mp4"
           type="video/mp4"
           autoPlay
           loop
           muted
           playsInline
         />
-        <div className="relative z-10 flex items-center justify-center h-full text-center text-white">
-          <div>
-            {/* Main Heading */}
-            <h1 className="text-6xl md:text-9xl font-Jingle text-indigo-900 animate-fadeInH1 drop-shadow-lg">
-              Untaboo.
-            </h1>
 
-            {/* Subheading */}
-            <p className="mt-6 text-lg uppercase tracking-[0.35em] md:text-xl text-black animate-fadeInP">
-              Because health has no shame
-            </p>
-          </div>
+        {/* Content */}
+        <div className="relative z-10 flex flex-col items-center text-center text-white">
+          <h1 className="text-6xl md:text-9xl font-Jingle text-indigo-900 animate-fadeInH1 drop-shadow-lg">
+            Untaboo.
+          </h1>
+          <p className="mt-2 md:mt-2 ml-[26%] text-lg uppercase tracking-[0.35em] md:text-xl text-gray-600 animate-fadeInP">
+            Because health has no shame
+          </p>
         </div>
 
         {/* Chatbot Button */}
