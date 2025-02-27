@@ -1,11 +1,15 @@
 const express = require("express");
 const session = require("express-session");
-const app = express();
 const cors = require("cors");
+const passport = require("passport");
+const authRouter = require("./routes/auth");
+const patientsRouter = require("./routes/patient.js");
+
+const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -20,30 +24,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get(
-    "/auth/google",
-    passport.authenticate("google", {
-      scope: ["profile", "email"],
-    })
-  );
-  
-  app.get(
-    "/auth/google/redirect",
-    passport.authenticate("google", { failureRedirect: "/login" }),
-    (req, res) => {
-      // Successful authentication, redirect to discussion or any desired page
-      res.redirect("http://localhost:5173/discussion"); // ill go for discussion
-    }
-  );
+app.use(authRouter);
+app.use(patientsRouter); // Add this
 
-  // Get user endpoint
-app.get("/auth/user", (req, res) => {
-    if (req.isAuthenticated()) {
-      res.json({ user: req.user });
-    } else {
-      res.status(401).json({ message: "Not authenticated" });
-    }
-  });
 
 module.exports = app;
-  
