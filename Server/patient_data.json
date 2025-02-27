@@ -1,0 +1,145 @@
+[
+  {
+    "id":"4011d5ed-1a5e-495b-a482-b271563a1302",
+    "name":"Eric Austin",
+    "age":28,
+    "condition":"PCOD",
+    "last_cycle_length":27.0,
+    "LH_level":17,
+    "FSH_level":5,
+    "medications":[
+      "Azithromycin"
+    ],
+    "latest_lab_report":"LH: 16 mIU\/mL, FSH: 8 mIU\/mL",
+    "symptoms":"Painful Urination"
+  },
+  {
+    "id":"9f247842-e563-4280-9bc6-243bb3a0e797",
+    "name":"Shannon Waters",
+    "age":36,
+    "condition":"PCOD",
+    "last_cycle_length":35.0,
+    "LH_level":12,
+    "FSH_level":7,
+    "medications":[
+      "Azithromycin"
+    ],
+    "latest_lab_report":"LH: 5 mIU\/mL, FSH: 5 mIU\/mL",
+    "symptoms":"Acne, Irregular Periods"
+  },
+  {
+    "id":"e27942a4-5872-4235-94ea-a8e024ab92cf",
+    "name":"Dr. Sarah Taylor",
+    "age":35,
+    "condition":"PCOD",
+    "last_cycle_length":null,
+    "LH_level":8,
+    "FSH_level":5,
+    "medications":[
+      "Azithromycin"
+    ],
+    "latest_lab_report":"LH: 20 mIU\/mL, FSH: 9 mIU\/mL",
+    "symptoms":"Painful Urination"
+  },
+  {
+    "id":"44486c35-d9f9-4412-94ac-ea6a0c64ecc9",
+    "name":"Kimberly Hall",
+    "age":25,
+    "condition":"Fertility Issues",
+    "last_cycle_length":null,
+    "LH_level":6,
+    "FSH_level":5,
+    "medications":[
+      "Azithromycin"
+    ],
+    "latest_lab_report":"LH: 20 mIU\/mL, FSH: 10 mIU\/mL",
+    "symptoms":"Infertility"
+  },
+  {
+    "id":"89d303ad-5ad9-4e90-8daa-9d35453c8017",
+    "name":"Amber Cline",
+    "age":44,
+    "condition":"STI",
+    "last_cycle_length":null,
+    "LH_level":9,
+    "FSH_level":5,
+    "medications":[
+      "Metformin",
+      "Diane-35"
+    ],
+    "latest_lab_report":"LH: 13 mIU\/mL, FSH: 10 mIU\/mL",
+    "symptoms":"Infertility"
+  },
+  {
+    "id":"dcb6a869-0ef3-414f-80f4-c8d6fe2a1a61",
+    "name":"Evan Johnson",
+    "age":27,
+    "condition":"PCOD",
+    "last_cycle_length":null,
+    "LH_level":7,
+    "FSH_level":7,
+    "medications":[
+      "Clomiphene"
+    ],
+    "latest_lab_report":"LH: 5 mIU\/mL, FSH: 8 mIU\/mL",
+    "symptoms":"Infertility"
+  },
+  {
+    "id":"ded8bd0b-f8a6-4bd9-a873-b8c122e180a8",
+    "name":"Todd Preston",
+    "age":32,
+    "condition":"Fertility Issues",
+    "last_cycle_length":39.0,
+    "LH_level":17,
+    "FSH_level":9,
+    "medications":[
+      "Metformin",
+      "Diane-35"
+    ],
+    "latest_lab_report":"LH: 13 mIU\/mL, FSH: 5 mIU\/mL",
+    "symptoms":"Infertility"
+  },
+  {
+    "id":"c88d14a2-0e96-4bbb-bf27-7780d532bca4",
+    "name":"Miguel Graham",
+    "age":42,
+    "condition":"PCOD",
+    "last_cycle_length":null,
+    "LH_level":6,
+    "FSH_level":4,
+    "medications":[
+      "Metformin",
+      "Diane-35"
+    ],
+    "latest_lab_report":"LH: 13 mIU\/mL, FSH: 7 mIU\/mL",
+    "symptoms":"Infertility"
+  },
+  {
+    "id":"3e2f964b-c904-455d-b550-b6a9fb5ac9c2",
+    "name":"Jacob Wood",
+    "age":28,
+    "condition":"Fertility Issues",
+    "last_cycle_length":null,
+    "LH_level":17,
+    "FSH_level":8,
+    "medications":[
+      "Azithromycin"
+    ],
+    "latest_lab_report":"LH: 14 mIU\/mL, FSH: 4 mIU\/mL",
+    "symptoms":"Acne, Irregular Periods"
+  },
+  {
+    "id":"165a6dcd-bf2e-49d5-8f86-a1c1a52030e0",
+    "name":"Katie Wood",
+    "age":25,
+    "condition":"PCOD",
+    "last_cycle_length":null,
+    "LH_level":6,
+    "FSH_level":3,
+    "medications":[
+      "Azithromycin"
+    ],
+    "latest_lab_report":"LH: 14 mIU\/mL, FSH: 10 mIU\/mL",
+    "symptoms":"Acne, Irregular Periods"
+  }
+]
