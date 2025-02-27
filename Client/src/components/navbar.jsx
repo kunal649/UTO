@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import "../App.css";
+import ProfilePopup from "./profile";
+
 import {
   FaHome,
   FaUserMd,
@@ -21,14 +23,15 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Book Consultation Button */}
-          <div>
+          {/* Book Consultation Button and Avatar */}
+          <div className="flex items-center space-x-4">
             <Link
               to="/book"
               className="bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-indigo-600 transition duration-300"
             >
               Book a Consultation
             </Link>
+            <ProfilePopup />
           </div>
         </div>
       </div>
