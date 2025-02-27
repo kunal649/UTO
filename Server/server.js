@@ -6,22 +6,20 @@ const app = require("./app");
 
 const PORT = process.env.PORT || 5000;
 
-// Passport Configuration
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: "",
+      clientSecret:"",
       callbackURL: "http://localhost:5000/auth/google/redirect",
     },
     (accessToken, refreshToken, profile, done) => {
       // user profile ko database m save kr <here>
-      done(null, profile); // abhi just return krde profile
+      done(null, profile); 
     }
   )
 );
 
-// Serialize user into session
 passport.serializeUser((user, done) => {
   done(null, user);
 });
