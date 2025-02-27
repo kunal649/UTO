@@ -1,79 +1,95 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
 import ProfilePopup from "./profile";
+import { FaHome, FaUserMd, FaPodcast, FaComments, FaEnvelope } from "react-icons/fa";
+import Signup from "./signup.jsx"; 
+import Login from "./login.jsx";
 
-import {
-  FaHome,
-  FaUserMd,
-  FaPodcast,
-  FaComments,
-  FaEnvelope,
-} from "react-icons/fa";
 
 const Navbar = () => {
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isLogInOpen, setIsLoginInOpen ] = useState(false);
   return (
     <div>
       {/* Top Bar with Logo and Book Consultation Button */}
-      <div className="fixed top-0 left-0 right-0 z-50 ">
-        <div className="container mx-auto flex justify-between items-center py-4 px-6">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md py-4">
+        <div className="container mx-auto flex justify-between items-center px-8">
           {/* Logo Section */}
-          <div className="text-2xl font-roboto-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600">
-            <Link to="/" className="flex items-center">
-              Untaboo
-            </Link>
+          <div className="text-3xl font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600">
+            <Link to="/" className="flex items-center"> Untaboo </Link>
           </div>
 
-          {/* Book Consultation Button and Avatar */}
-          <div className="flex items-center space-x-4">
-            <Link
-              to="/book"
-              className="bg-blue-600 text-white px-6 py-2 rounded-full shadow hover:bg-indigo-600 transition duration-300"
+          {/* Buttons */}
+          <div className="flex items-center space-x-6">
+          <Link
+              to="/Signup"
+              className="bg-white text-black px-4 py-2 text-lg rounded-full shadow-lg hover:text-indigo-600 transition duration-300"
             >
-              Book a Consultation
+              Sign up
             </Link>
+
+            <Link
+              to="/login"
+              className="bg-white text-black px-4 py-2 text-lg rounded-full shadow-lg hover:text-indigo-600 transition duration-300"
+            >
+              login
+            </Link>
+
             <ProfilePopup />
           </div>
         </div>
       </div>
 
-      {/* Bottom-Centered Navbar with Glassmorphism */}
-      <nav className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 w-auto max-w-lg rounded-2xl shadow-lg backdrop-blur-lg bg-white/30 border border-white/20">
-        <div className="container mx-auto flex justify-center items-center py-3 px-5">
-          {/* Links */}
-          <div className="flex space-x-7">
-            <Link
-              to="/"
-              className="text-gray-600 hover:text-blue-600 font-semibold transition duration-300"
-            >
-              <FaHome className="text-xl" />
-            </Link>
-            <Link
-              to="/OurDoctors"
-              className="text-gray-600 hover:text-blue-600 font-semibold transition duration-300"
-            >
-              <FaUserMd className="text-xl" />
-            </Link>
-            <Link
-              to="/services"
-              className="text-gray-600 hover:text-blue-600 font-semibold transition duration-300"
-            >
-              <FaPodcast className="text-xl" />
-            </Link>
-            <Link
-              to="/discussion"
-              className="text-gray-600 hover:text-blue-600 font-semibold transition duration-300"
-            >
-              <FaComments className="text-xl" />
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-600 hover:text-blue-600 font-semibold transition duration-300"
-            >
-              <FaEnvelope className="text-xl" />
-            </Link>
-          </div>
+      {/* Bottom Navbar - Increased Size & Icons */}
+      <nav className="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-xl rounded-3xl shadow-xl backdrop-blur-lg bg-white/40 border border-white/30 py-5 px-8">
+        <div className="container mx-auto flex justify-around items-center">
+          <Link to="/" className="text-gray-700 hover:text-blue-600 transition duration-300">
+            <FaHome className="text-4xl" />
+          </Link>
+          <Link to="/OurDoctors" className="text-gray-700 hover:text-blue-600 transition duration-300">
+            <FaUserMd className="text-4xl" />
+          </Link>
+          <Link to="/services" className="text-gray-700 hover:text-blue-600 transition duration-300">
+            <FaPodcast className="text-4xl" />
+          </Link>
+          <Link to="/discussion" className="text-gray-700 hover:text-blue-600 transition duration-300">
+            <FaComments className="text-4xl" />
+          </Link>
+          <Link to="/contact" className="text-gray-700 hover:text-blue-600 transition duration-300">
+            <FaEnvelope className="text-4xl" />
+          </Link>
         </div>
       </nav>
+
+      {/* Signup Modal */}
+      {isSignupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+            <button
+              onClick={() => setIsSignupOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+            >
+              ✖
+            </button>
+            <Signup />
+          </div>
+        </div>
+      )}
+
+{isLogInOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+            <button
+              onClick={() => setIsLoginInOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+            >
+              ✖
+            </button>
+            <Login />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
