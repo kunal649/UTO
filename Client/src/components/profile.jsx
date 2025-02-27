@@ -16,15 +16,8 @@ export default function ProfilePopup() {
   return (
     <div className="relative">
       {/* Avatar Icon */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center"
-      >
-        <img
-          src="/user-avatar.jpg"
-          alt="User"
-          className="w-full h-full object-cover"
-        />
+      <button onClick={() => setOpen(!open)} className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center">
+        <img src="https://avatars.githubusercontent.com/u/184921474?v=4" alt="User" className="w-full h-full object-cover" />
       </button>
 
       {/* Profile Popup */}
