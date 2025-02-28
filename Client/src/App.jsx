@@ -7,8 +7,7 @@ import Navbar from "./components/navbar.jsx";
 import AppointmentPopup from "./components/AppointmentPopup.jsx";
 import Signup from "./components/signup.jsx";
 import Login from "./components/login.jsx";
-
-import BlogComponent from "./pages/Discussion.jsx";
+import BlogComponent from "./pages/Discussion.jsx"
 import Dashboard from "./components/dashboard.jsx"; // Import the Dashboard component
 
 export default function App() {
@@ -20,12 +19,11 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/discussion " element={<BlogComponent />} />
+          <Route path="/Discussion " element={<BlogComponent />} />
            <Route path="/Signup" element={<Signup/>}/>
            <Route path ="/login" element={<Login/>}/>
           <Route path="/login" element={<Login />} />
-          <Route path="/discussion" element={<BlogComponent />} />
-          <Route path="/dashboard" element={<Dashboard />} />{" "}
+          <Route path="/dashboard" element={<Dashboard />} />
           {/* Add Dashboard route */}
           <Route
             path="/OurDoctors"

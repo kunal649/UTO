@@ -1,61 +1,101 @@
-export default function OurDoctors({openAppointmentPopup}) {
-    return (
-        <div className="w-full flex flex-col space-y-8"> {/* Reduced space-y from 8 to 4 */}
-        {/* Doctor 1 */}
-        <div className="flex flex-col md:flex-row items-center bg-white rounded-lg p-6" data-aos="fade-right"> {/* Reduced padding from p-6 to p-4 */}
-          <img src="https://www.apollocradle.com/backend/web/doctor-images/1698306869Photo-Dr-Seema-Sharma.jpg" alt="Dr. seema sharma " className="w-48 h-48 rounded-full md:mr-6 mb-4 md:mb-0" />
-          <div className="text-left">
-            <h3 className="text-5xl font-semibold text-indigo-900">Dr. Seema Sharma</h3>
-            <p className="mt-2"><strong>Clinic Address:</strong> Apollo Hospital Rajouri Garden New Delhi</p>
-            <p className="mt-2"><strong>Qualification:</strong> MD, Obstetrics and Gynecology F.MAS,FRCOG(UK)</p>
-            <p className="mt-2"><strong>Ratings:</strong> ⭐⭐⭐⭐⭐ (4.8/5)</p>
-            <button
-        onClick={openAppointmentPopup}
-        className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition duration-300"
-      >
-        Book Appointment
-      </button>
-          </div>
-        </div>
-         {/* Divider */}
-    <hr className="w-full border-gray-300" />
 
-        {/* Doctor 2 */}
-        <div className="flex flex-col md:flex-row items-center bg-white rounded-lg p-6" data-aos="fade-left"> {/* Reduced padding from p-6 to p-1*/}
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9T2cycm-LxvHkF1dyxB5kyF-3GOyxMa-1sQ&s" alt="Dr. Parul Katiyar" className="w-50 h-50 rounded-full md:mr-6 mb-4 md:mb-0 " />
-          <div className="text-left">
-            <h3 className="text-5xl font-semibold text-indigo-900">Dr. Parul Katiyar</h3>
-            <p className="mt-2"><strong>Clinic Address:</strong> ART Fertility Clinic, E-14 Defence Colony New Delhi</p>
-            <p className="mt-2"><strong>Qualification:</strong> MD,Obsecrics and Gynecology JN Medical College Aligarh</p>
-            <p className="mt-2"><strong>Ratings:</strong> ⭐⭐⭐⭐ (4.5/5)</p>
-            <button
-        onClick={openAppointmentPopup}
-        className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition duration-300"
-      >
-        Book Appointment
-      </button>
 
-          </div>
-        </div>
-         {/* Divider */}
-    <hr className="w-full border-gray-300" />
-
-        {/* Doctor 3 */}
-        <div className="flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg p-6" data-aos="fade-right">
-          <img src="https://www.drvaishalisharma.com/wp-content/uploads/2023/08/vaishali-img.jpg" alt="Dr. Vaishali Sharma" className="w-48 h-48 rounded-full md:mr-6 mb-4 md:mb-0" />
-          <div className="text-left">
-            <h3 className="text-5xl font-semibold text-indigo-900">Dr. Vaishali Sharma</h3>
-            <p className="mt-2"><strong>Clinic Address:</strong> S-345,Panchsheel Park New Delhi</p>
-            <p className="mt-2"><strong>Qualification:</strong> MD, Obstetrics and Gynecology Aiims Delhi</p>
-            <p className="mt-2"><strong>Ratings:</strong> ⭐⭐⭐⭐⭐ (4.9/5)</p>
-            <button
-        onClick={openAppointmentPopup}
-        className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition duration-300"
+export default function OurDoctors({ openAppointmentPopup }) {
+  return (
+    <div className="w-full flex flex-col space-y-16 bg-gray-50 pb-16">
+      {/* Hero Section with Background Image */}
+      <div
+        className="relative bg-cover bg-center h-[500px] flex items-center justify-center text-white text-center shadow-lg"
+        style={{
+          backgroundImage:
+            "url('https://i.pinimg.com/736x/0e/3b/12/0e3b1228f70aa2c6ce2aeff9ec1d4dbf.jpg')",
+        }}
       >
-        Book Appointment
-      </button>
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-black/50"></div>
+        <h1
+          className="relative text-8xl md:text-9xl font-extrabold tracking-wide"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          Our Doctors
+        </h1>
       </div>
-    )
+
+      {/* Doctors List */}
+      <div className="max-w-6xl mx-auto space-y-14 px-6">
+        {/* Doctor Card */}
+        {doctors.map((doctor, index) => (
+          <div
+            key={index}
+            className="flex flex-col md:flex-row items-center bg-gradient-to-r from-white to-gray-100 rounded-xl p-10 shadow-xl hover:shadow-2xl transition"
+          >
+            {/* Doctor Image */}
+            <img
+              src={doctor.image}
+              alt={doctor.name}
+              className="w-52 h-52 rounded-full object-cover md:mr-8 mb-4 md:mb-0 border-4"
+              style={{ borderColor: doctor.borderColor }}
+            />
+
+            {/* Doctor Details */}
+            <div className="text-left flex-grow space-y-3">
+              <h3
+                className="text-4xl font-bold"
+                style={{ color: doctor.textColor, fontFamily: "'Inter', sans-serif" }}
+              >
+                {doctor.name}
+              </h3>
+              <p className="text-gray-700 text-lg">
+                <strong>Clinic Address:</strong> {doctor.clinic}
+              </p>
+              <p className="text-gray-700 text-lg">
+                <strong>Qualification:</strong> {doctor.qualification}
+              </p>
+              <p className="text-gray-700 text-lg">
+                <strong>Ratings:</strong> {doctor.rating}
+              </p>
+            </div>
+
+            {/* Book Appointment Button */}
+            <button
+              onClick={openAppointmentPopup}
+              className="bg-green-600 text-white px-8 py-3 text-lg font-semibold rounded-lg hover:bg-green-700 transition shadow-md md:ml-auto mt-6 md:mt-0"
+            >
+              Book Appointment
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
+
+// Doctor Data
+const doctors = [
+  {
+    name: "Dr. Seema Sharma",
+    clinic: "Apollo Hospital, Rajouri Garden, New Delhi",
+    qualification: "MD, Obstetrics & Gynecology | F.MAS, FRCOG(UK)",
+    rating: "⭐⭐⭐⭐⭐ (4.8/5)",
+    image: "https://www.apollocradle.com/backend/web/doctor-images/1698306869Photo-Dr-Seema-Sharma.jpg",
+    borderColor: "#6366F1",
+    textColor: "#4F46E5",
+  },
+  {
+    name: "Dr. Parul Katiyar",
+    clinic: "ART Fertility Clinic, Defence Colony, New Delhi",
+    qualification: "MD, Obstetrics & Gynecology | JN Medical College",
+    rating: "⭐⭐⭐⭐ (4.5/5)",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9T2cycm-LxvHkF1dyxB5kyF-3GOyxMa-1sQ&s",
+    borderColor: "#22C55E",
+    textColor: "#15803D",
+  },
+  {
+    name: "Dr. Vaishali Sharma",
+    clinic: "S-345, Panchsheel Park, New Delhi",
+    qualification: "MD, Obstetrics & Gynecology | AIIMS Delhi",
+    rating: "⭐⭐⭐⭐⭐ (4.9/5)",
+    image: "https://www.drvaishalisharma.com/wp-content/uploads/2023/08/vaishali-img.jpg",
+    borderColor: "#9333EA",
+    textColor: "#6D28D9",
+  },
+];
