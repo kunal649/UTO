@@ -49,64 +49,71 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      {success ? (
-        <div className="text-xl font-bold text-green-500 animate-fade">
-          Signed up successfully! Redirecting...
-        </div>
-      ) : (
-        <form
-          onSubmit={handleSignup}
-          className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] px-4">
+      <div className="relative w-full max-w-md p-8 rounded-2xl bg-white/10 backdrop-blur-xl shadow-xl border border-white/20">
+        
+        {/* Glow Effect */}
+        <div className="absolute inset-0 rounded-2xl shadow-lg bg-gradient-to-r from-indigo-500 to-blue-500 opacity-20 blur-2xl"></div>
 
-          {/* Error Message */}
-          {error && (
-            <div className="mb-4 p-2 bg-red-100 text-red-600 rounded text-sm">
-              {error}
-            </div>
-          )}
+        {success ? (
+          <div className="relative text-xl font-bold text-green-400 text-center animate-fade">
+            Signed up successfully! Redirecting...
+          </div>
+        ) : (
+          <form onSubmit={handleSignup} className="relative space-y-6">
+            
+            {/* Title */}
+            <h2 className="text-3xl font-extrabold text-center text-white tracking-wide font-serif">
+              Sign Up
+            </h2>
 
-          {/* Username Field */}
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="border p-2 rounded w-full mb-3 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+            {/* Error Message */}
+            {error && (
+              <div className="p-3 bg-red-500/20 text-red-400 text-center rounded-lg border border-red-400/50">
+                {error}
+              </div>
+            )}
 
-          {/* Email Field */}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border p-2 rounded w-full mb-3 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+            {/* Username Field */}
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-gray-300 shadow-sm backdrop-blur-md focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all"
+              required
+            />
 
-          {/* Password Field */}
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border p-2 rounded w-full mb-4 focus:ring-2 focus:ring-blue-500"
-            required
-          />
+            {/* Email Field */}
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-gray-300 shadow-sm backdrop-blur-md focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all"
+              required
+            />
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-600 transition-colors"
-          >
-            Sign Up
-          </button>
-        </form>
-      )}
+            {/* Password Field */}
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 border border-white/30 rounded-lg bg-white/10 text-white placeholder-gray-300 shadow-sm backdrop-blur-md focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all"
+              required
+            />
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-indigo-500/80 text-white py-3 rounded-lg hover:bg-indigo-600 transition-all shadow-md font-semibold text-lg tracking-wide relative"
+            >
+              Sign Up
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
