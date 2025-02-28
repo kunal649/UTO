@@ -1,38 +1,47 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext"; // Import AuthContext
+import { useNavigate } from "react-router-dom"; // React Router for navigation
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const { loginUser } = useAuth();
+  const navigate = useNavigate(); // Use navigate hook
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(""); // State for error messages
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError(""); // Clear error on input change
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.username || !formData.password || !formData.age) {
-      alert("All fields are required!");
+
+    if (!formData.username || !formData.password) {
+      setError("All fields are required!");
       return;
     }
-    console.log("User Registered:", formData);
+
+    setLoading(true);
+    const response = await loginUser(formData);
+    setLoading(false);
+
+    if (response.success) {
+      navigate("/dashboard"); // Navigate instead of window.location.href
+    } else {
+      setError(response.message || "Invalid credentials!");
+    }
   };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-indigo-600">Log in</h2>
+        <h2 className="text-2xl font-bold text-center text-indigo-600">
+          Log in
+        </h2>
+        {error && <p className="text-red-500 text-center mt-2">{error}</p>}{" "}
+        {/* Display error */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          
-          {/* Avatar Placeholder */}
-          <div className="flex justify-center">
-            <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center text-xl font-semibold">
-              U
-            </div>
-          </div>
-
-          {/* Username */}
           <input
             type="text"
             name="username"
@@ -42,8 +51,6 @@ const Login = () => {
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400"
           />
-
-          {/* Password */}
           <input
             type="password"
             name="password"
@@ -51,16 +58,19 @@ const Login = () => {
             required
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 font-serif;"
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400"
           />
-            <button
+          <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+            disabled={loading} // Disable button when logging in
+            className={`w-full bg-indigo-600 text-white py-2 rounded-lg transition ${
+              loading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-700"
+            }`}
           >
-            login
+            {loading ? "Logging in..." : "Log in"}
           </button>
-           </form>
-            </div>
+        </form>
+      </div>
     </div>
   );
 };

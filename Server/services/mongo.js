@@ -1,21 +1,24 @@
 const { MongoClient } = require("mongodb");
 
-const client = new MongoClient(process.env.MONGO_URI);
+const MONGO_URL = process.env.MONGO_URI;
+const client = new MongoClient(MONGO_URL);
 
 let db;
 
-async function connectDB() {
-  if (!db) {
+const connectDB = async () => {
+  try {
     await client.connect();
-    db = client.db(); // Uses the default database from MONGO_URI
-    console.log("Connected to MongoDB");
+    db = client.db("Untaboo");
+    console.log("🔥 Database connected successfully");
+  } catch (error) {
+    console.error("❌ Database connection failed:", error);
+    process.exit(1);
   }
-  return db;
-}
+};
 
-function getDB() {
-  if (!db) throw new Error("Database not connected!");
+const getDB = () => {
+  if (!db) throw new Error("❌ Database not connected!");
   return db;
-}
+};
 
 module.exports = { connectDB, getDB };
