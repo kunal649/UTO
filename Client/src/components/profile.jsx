@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Import AuthContext
 import {
   LogOut,
   TrendingUp,
@@ -11,13 +12,24 @@ import {
 
 export default function ProfilePopup() {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+  const { user, logoutUser } = useAuth(); // Get user & logout function
 
   return (
     <div className="relative">
       {/* Avatar Icon */}
-      <button onClick={() => setOpen(!open)} className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center">
-        <img src="https://avatars.githubusercontent.com/u/184921474?v=4" alt="User" className="w-full h-full object-cover" />
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center"
+      >
+        <img
+          src={
+            user?.avatar ||
+            "https://avatars.githubusercontent.com/u/184921474?v=4"
+          }
+          alt="User"
+          className="w-full h-full object-cover"
+        />
       </button>
 
       {/* Profile Popup */}
@@ -33,15 +45,19 @@ export default function ProfilePopup() {
               {/* Profile Picture */}
               <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-300">
                 <img
-                  src="/user-avatar.jpg"
+                  src={user?.avatar || "/user-avatar.jpg"}
                   alt="User"
                   className="w-full h-full object-cover"
                 />
               </div>
 
               {/* User Details */}
-              <p className="text-lg font-semibold mt-2">John Doe</p>
-              <p className="text-sm text-gray-500">johndoe@example.com</p>
+              <p className="text-lg font-semibold mt-2">
+                {user?.name || "John Doe"}
+              </p>
+              <p className="text-sm text-gray-500">
+                {user?.email || "johndoe@example.com"}
+              </p>
 
               {/* Options */}
               <div className="mt-3 w-full space-y-2">
@@ -49,7 +65,7 @@ export default function ProfilePopup() {
                   <UserPlus className="w-5 h-5 mr-2" /> New User
                 </button>
                 <button
-                  onClick={() => navigate("/dashboard")} // Navigate to Dashboard
+                  onClick={() => navigate("/patient-dashboard")}
                   className="flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-100"
                 >
                   <TrendingUp className="w-5 h-5 mr-2" /> Dashboard
@@ -65,7 +81,7 @@ export default function ProfilePopup() {
               {/* Logout */}
               <button
                 className="flex items-center w-full px-4 py-2 mt-3 text-red-600 hover:bg-red-100 rounded-md"
-                onClick={() => alert("Logging out...")}
+                onClick={logoutUser}
               >
                 <LogOut className="w-5 h-5 mr-2" /> Logout
               </button>
