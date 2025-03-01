@@ -17,9 +17,38 @@ router.get(
   "/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("http://localhost:5143/Dashboard"); 
+    res.redirect("http://localhost:5143/");
   }
 );
+router.post("/Signup", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Check if user already exists
+  const existingUser = users.find((u) => u.email === email);
+  if (existingUser) {
+    return res.status(400).json({ message: "User already exists" });
+  }
+
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = {
+    id: users.length + 1,
+    username,
+    email,
+    password: hashedPassword,
+  };
+  users.push(newUser);
+
+  // Generate a token
+  const token = jwt.sign(
+    { id: newUser.id, email: newUser.email },
+    "JWT_SECRET",
+    { expiresIn: "1h" }
+  );
+
+  res.cookie("token", token, { httpOnly: true, secure: false });
+  res.json({ success: true, user: newUser, token });
+});
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;

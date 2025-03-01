@@ -4,7 +4,6 @@ const { getDB } = require("../services/mongo");
 
 const patientsRouter = express.Router();
 
-// 🔹 Get Patient Data
 patientsRouter.get("/patient/:id", verifyToken, async (req, res) => {
   const { hospital_id, doctor_id } = req.user; // Extracted from JWT
 
@@ -15,8 +14,7 @@ patientsRouter.get("/patient/:id", verifyToken, async (req, res) => {
       .findOne({ patient_id: req.params.id });
 
     if (!patient) return res.status(404).json({ message: "Patient not found" });
-
-    // Log the access
+    
     await db.collection("patients").updateOne(
       { patient_id: req.params.id },
       {

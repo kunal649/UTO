@@ -17,7 +17,7 @@ export default function Signup() {
 
     try {
       // Step 1: Send signup request to the backend
-      const signupResponse = await axios.post("http://localhost:5000/signup", {
+      const signupResponse = await axios.post("http://localhost:5000/Signup", {
         username,
         email,
         password,
