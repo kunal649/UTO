@@ -1,4 +1,4 @@
-const express = require("express");
+/* const express = require("express");
 const jwt = require("jsonwebtoken");
 const { getDB } = require("../services/mongo"); // Import DB
 
@@ -15,10 +15,10 @@ loginRouter.post("/login", async (req, res) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  const token = jwt.sign({ hospital_id, doctor_id }, "SECRET_KEY", {
+  const token = jwt.sign({ hospital_id, doctor_id }, "JWT_SECRET", {
     expiresIn: "1h",
   });
   res.json({ token });
 });
 
-module.exports = loginRouter;
+module.exports = loginRouter; */
