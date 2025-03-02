@@ -2,7 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const passport = require("passport");
-const authRoutes = require("./routes/auth.js");
+const router = require("./routes/auth.js");
 const patientsRouter = require("./routes/patient.js");
 const loginRouter = require("./routes/login.js");
 
@@ -29,7 +29,7 @@ app.use(passport.session());
 
 // Use routes only after DB is connected
 app.use(loginRouter);
-app.use("/auth", authRoutes);
+app.use("/auth", router);
 app.use(patientsRouter);
 
 module.exports = app;
