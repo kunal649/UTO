@@ -4,55 +4,19 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { verifyToken } = require("../config/jwt");
 const User = require("../models/user");
+const googleAuthenticator = require("../config/passport");
+const googleCallback = require("../config/passport");
+const userSignup = require("../controllers/user.controller");
+
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 const users = [];
 
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.get("/google", googleAuthenticator);
 
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    res.redirect("http://localhost:5143");
-  }
-);
-router.post("/Signup", async (req, res) => {
-  const { username, email, password } = req.body;
+router.get("/google/callback", googleCallback);
 
-  // Check if user already exists
-  const existingUser = users.find((u) => u.email === email);
-  if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-  if(!existingUser){
-    const newUser = new User.create({ username, email, password });
-    return res.status(200).json({ message: "User Created" });
-  }
- 
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = {
-    id: users.length + 1,
-    username,
-    email,
-    password: hashedPassword,
-  };
-  users.push(newUser);
-
-  // Generate a token
-  const token = jwt.sign(
-    { id: newUser.id, email: newUser.email },
-    "JWT_SECRET",
-    { expiresIn: "2h" }
-  );
-
-  res.cookie("token", token, { httpOnly: true, secure: false });
-  res.json({ success: true, user: newUser, token });
-});
+router.post("/Signup", userSignup);
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
