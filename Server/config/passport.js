@@ -34,6 +34,17 @@ passport.use(
   )
 );
 
+async function googleAuthenticator() {
+  passport.authenticate("google", { scope: ["profile", "email"] });
+}
+
+async function googleCallback() {
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("http://localhost:5143");
+  }
+};
+
 // 🔹 Serialize user into session
 passport.serializeUser((user, done) => {
   done(null, user._id.toString()); // Ensure `_id` is stored as a string
@@ -50,4 +61,8 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-module.exports = passport;
+module.exports = {
+  passport, 
+  googleAuthenticator,
+  googleCallback
+};
