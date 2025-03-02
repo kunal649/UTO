@@ -34,11 +34,11 @@ passport.use(
   )
 );
 
-async function googleAuthenticator() {
+async function googleAuthenticator(passport) {
   passport.authenticate("google", { scope: ["profile", "email"] });
 }
 
-async function googleCallback() {
+async function googleCallback(passport) {
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     res.redirect("http://localhost:5143");

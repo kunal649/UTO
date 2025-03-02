@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 async function userSignup(req, res) {
   const { username, email, password } = req.body;
 
