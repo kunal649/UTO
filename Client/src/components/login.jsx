@@ -27,7 +27,7 @@ const Login = () => {
     setLoading(false);
 
     if (response.success) {
-      navigate("/dashboard"); // Navigate instead of window.location.href
+      navigate("/"); // Navigate instead of window.location.href
     } else {
       setError(response.message || "Invalid credentials!");
     }

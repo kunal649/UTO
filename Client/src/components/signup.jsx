@@ -1,27 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Import useAuth
-import axios from "axios"; // For making API requests
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(""); // For error handling
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { loginUser } = useAuth(); // Use loginUser from AuthContext
+  const { loginUser } = useAuth();
 
   const handleSignup = async (e) => {
     e.preventDefault();
 
     try {
       // Step 1: Send signup request to the backend
-      const signupResponse = await axios.post("http://localhost:5000/Signup", {
-        username,
-        email,
-        password,
-      });
+      const signupResponse = await axios.post(
+        "http://localhost:5000/auth/Signup",
+        {
+          username,
+          email,
+          password,
+        }
+      );
 
       // Step 2: If signup is successful, log the user in
       if (signupResponse.data.success) {
