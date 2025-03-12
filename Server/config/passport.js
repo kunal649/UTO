@@ -1,7 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const { getDB } = require("../services/mongo");
-const { ObjectId } = require("mongodb"); 
+const User = require("../models/user.js");
+const { ObjectId } = require("mongodb");
 
 passport.use(
   new GoogleStrategy(
@@ -13,17 +13,21 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const db = getDB();
-        let user = await db.collection("users").findOne({ email: profile.emails[0].value });
+        let user = await User.findOne({ email: profile.emails[0].value });
 
         if (!user) {
-          const result = await db.collection("users").insertOne({
+          const user = await User.create                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ({
             googleId: profile.id,
             name: profile.displayName,
             email: profile.emails[0].value,
             profilePic: profile.photos[0].value,
+            password: null,
+            role: "user",
           });
 
-          user = await db.collection("users").findOne({ _id: result.insertedId });
+          user = await db
+            .collection("users")
+            .findOne({ _id: result.insertedId });
         }
 
         done(null, user);
@@ -34,15 +38,20 @@ passport.use(
   )
 );
 
-async function googleAuthenticator(passport) {
-  passport.authenticate("google", { scope: ["profile", "email"] });
-}
+const googleAuthenticator = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
+const googleCallback = (req, res, next) => {
+  passport.authenticate("google", { failureRedirect: "/" }, (err, user) => {
+    if (err || !user) {
+      return res.redirect("/");
+    }
 
-async function googleCallback(passport) {
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    res.redirect("http://localhost:5143");
-  }
+    req.login(user, (loginErr) => {
+      if (loginErr) return next(loginErr);
+      return res.redirect("http://localhost:5143");
+    });
+  })(req, res, next);
 };
 
 // 🔹 Serialize user into session
@@ -54,7 +63,9 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const db = getDB();
-    const user = await db.collection("users").findOne({ _id: new ObjectId(id) });
+    const user = await db
+      .collection("users")
+      .findOne({ _id: new ObjectId(id) });
     done(null, user);
   } catch (error) {
     done(error, null);
@@ -62,7 +73,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 module.exports = {
-  passport, 
+  passport,
   googleAuthenticator,
-  googleCallback
+  googleCallback,
 };
