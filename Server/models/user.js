@@ -1,15 +1,29 @@
-const { getDB } = require("../config/db");
+const mongoose = require("mongoose");
 
-class User {
-  static async create(userData) {
-    const db = getDB();
-    return await db.collection("users").insertOne(userData);
-  }
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: function (value) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
+      },
+      message: "Please enter a valid email address",
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  role: {
+    type: String,
+    required: true,
+  },
+});
 
-  static async findByEmail(email) {
-    const db = getDB();
-    return await db.collection("users").findOne({ email });
-  }
-}
-
-module.exports = User;
+module.exports = user = mongoose.model("users", userSchema);
