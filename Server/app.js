@@ -27,7 +27,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Use routes only after DB is connected
 app.use(loginRouter);
 app.use("/auth", router);
 app.use(patientsRouter);
