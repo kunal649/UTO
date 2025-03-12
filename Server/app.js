@@ -2,9 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const passport = require("passport");
-const router = require("./routes/auth.js");
-const patientsRouter = require("./routes/patient.js");
-const loginRouter = require("./routes/login.js");
+const api = require("./routes/api");
+require("dotenv").config();
 
 const app = express();
 
@@ -27,8 +26,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(loginRouter);
-app.use("/auth", router);
-app.use(patientsRouter);
+app.use("/v1", api);
 
 module.exports = app;
