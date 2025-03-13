@@ -1,5 +1,5 @@
 const express = require("express");
-const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
 const api = require("./routes/api");
@@ -15,16 +15,10 @@ app.use(
 );
 
 app.use(express.json());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+app.use(cookieParser());
 
 app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use("/v1", api);
 
