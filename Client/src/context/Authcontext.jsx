@@ -6,26 +6,17 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // 🔹 Google OAuth Login
-  const loginWithGoogle = () => {
-    window.location.href = "http://localhost:5000/auth/google";
-  };
-
-  // 🔹 Manual Username/Password Login
   const loginUser = async (formData) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/login",
-        formData
+        "http://localhost:5000/v1/login",
+        formData,
+        { withCredentials: true }
       );
-      localStorage.setItem("token", response.data.token); // Store JWT
+
       setUser(response.data.user);
       return { success: true };
     } catch (error) {
-      console.error(
-        "Login error:",
-        error.response?.data?.message || error.message
-      );
       return {
         success: false,
         message: error.response?.data?.message || "Login failed",
@@ -33,36 +24,39 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔹 Logout Function
-  const logoutUser = () => {
-    localStorage.removeItem("token"); // Remove JWT
-    setUser(null);
-  };
-
-  // 🔹 Fetch User Data
-  const getUser = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return; // No token, no request
-
+  const fetchUser = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/auth/user", {
-        headers: { Authorization: `Bearer ${token}` }, // Send JWT
+      const response = await axios.get("http://localhost:5000/v1/user", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
+
       setUser(response.data.user);
     } catch (error) {
       console.error("Error fetching user:", error);
+    }
+  };
+
+  const logoutUser = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/v1/logout",
+        {},
+        { withCredentials: true }
+      );
       setUser(null);
+    } catch (error) {
+      console.error("Logout error:", error);
     }
   };
 
   useEffect(() => {
-    getUser(); // Fetch user on mount
+    fetchUser();
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, setUser, loginUser, loginWithGoogle, logoutUser }}
-    >
+    <AuthContext.Provider value={{ user, setUser, loginUser, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

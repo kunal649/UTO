@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Import AuthContext
+import { useAuth } from "../context/AuthContext"; 
 import {
   LogOut,
   TrendingUp,
