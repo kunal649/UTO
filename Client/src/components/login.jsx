@@ -1,23 +1,24 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext"; // Import AuthContext
-import { useNavigate } from "react-router-dom"; // React Router for navigation
+import { useAuth } from "../context/AuthContext"; 
+import { useNavigate } from "react-router-dom";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const Login = () => {
   const { loginUser } = useAuth();
-  const navigate = useNavigate(); // Use navigate hook
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); // State for error messages
+  const [error, setError] = useState(""); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(""); // Clear error on input change
+    setError(""); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.username || !formData.password) {
+    if (!formData.email || !formData.password) {
       setError("All fields are required!");
       return;
     }
@@ -27,7 +28,7 @@ const Login = () => {
     setLoading(false);
 
     if (response.success) {
-      navigate("/"); // Navigate instead of window.location.href
+      navigate("/"); 
     } else {
       setError(response.message || "Invalid credentials!");
     }
@@ -39,15 +40,15 @@ const Login = () => {
         <h2 className="text-2xl font-bold text-center text-indigo-600">
           Log in
         </h2>
-        {error && <p className="text-red-500 text-center mt-2">{error}</p>}{" "}
-        {/* Display error */}
+        {error && <p className="text-red-500 text-center mt-2">{error}</p>} 
+
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <input
-            type="text"
-            name="username"
-            placeholder="Enter Username"
+            type="email"
+            name="email"
+            placeholder="Enter Email" 
             required
-            value={formData.username}
+            value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400"
           />
@@ -62,13 +63,15 @@ const Login = () => {
           />
           <button
             type="submit"
-            disabled={loading} // Disable button when logging in
+            disabled={loading}
             className={`w-full bg-indigo-600 text-white py-2 rounded-lg transition ${
               loading ? "opacity-50 cursor-not-allowed" : "hover:bg-indigo-700"
             }`}
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
+          
+          <GoogleLoginButton />
         </form>
       </div>
     </div>
