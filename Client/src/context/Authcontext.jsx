@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
@@ -24,20 +24,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const fetchUser = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/v1/user", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      setUser(response.data.user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-    }
-  };
-
   const logoutUser = async () => {
     try {
       await axios.post(
@@ -50,10 +36,6 @@ export const AuthProvider = ({ children }) => {
       console.error("Logout error:", error);
     }
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return (
     <AuthContext.Provider value={{ user, setUser, loginUser, logoutUser }}>
