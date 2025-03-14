@@ -3,11 +3,13 @@ const jwt = require("jsonwebtoken");
 if (!process.env.JWT_SECRET) {
   throw new Error("Missing JWT_SECRET in environment variables");
 }
+
 const SECRET_KEY = process.env.JWT_SECRET;
 
-// Here we created a middleware function that verifies the token. We can use it in any route we want to protect.
 const verifyToken = (req, res, next) => {
-  let token = req.cookies.token || req.headers.authorization;
+  let token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+
+  console.log("Received Token:", token);
 
   if (!token) {
     return res
@@ -15,12 +17,9 @@ const verifyToken = (req, res, next) => {
       .json({ message: "Access denied. No token provided." });
   }
 
-  if (token.startsWith("Bearer ")) {
-    token = token.slice(7);
-  }
-
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
+      console.error("JWT Verification Error:", err.message);
       return res.status(403).json({ message: "Invalid or expired token" });
     }
     req.user = decoded;

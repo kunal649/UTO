@@ -1,19 +1,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; 
-import {
-  LogOut,
-  TrendingUp,
-  UserPlus,
-  DollarSign,
-  CreditCard,
-} from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { LogOut, TrendingUp, DollarSign, CreditCard } from "lucide-react";
 
 export default function ProfilePopup() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { user, logoutUser } = useAuth(); // Get user & logout function
+
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate("/login"); // Redirect to login page after logout
+  };
 
   return (
     <div className="relative">
@@ -61,11 +60,8 @@ export default function ProfilePopup() {
 
               {/* Options */}
               <div className="mt-3 w-full space-y-2">
-                <button className="flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-100">
-                  <UserPlus className="w-5 h-5 mr-2" /> New User
-                </button>
                 <button
-                  onClick={() => navigate("/patient-dashboard")}
+                  onClick={() => navigate("/dashboard")}
                   className="flex items-center w-full px-4 py-2 rounded-md hover:bg-gray-100"
                 >
                   <TrendingUp className="w-5 h-5 mr-2" /> Dashboard
@@ -81,7 +77,7 @@ export default function ProfilePopup() {
               {/* Logout */}
               <button
                 className="flex items-center w-full px-4 py-2 mt-3 text-red-600 hover:bg-red-100 rounded-md"
-                onClick={logoutUser}
+                onClick={handleLogout}
               >
                 <LogOut className="w-5 h-5 mr-2" /> Logout
               </button>

@@ -9,8 +9,8 @@ import {
   FaComments,
   FaEnvelope,
 } from "react-icons/fa";
-import Signup from "./signup.jsx";
-import Login from "./login.jsx";
+import Signup from "../pages/signup.jsx";
+import Login from "../pages/login.jsx";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
@@ -26,17 +26,16 @@ const Navbar = () => {
           {/* Logo Section */}
           <div className="text-3xl font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600">
             <Link to="/" className="flex items-center">
-              {" "}
-              Untaboo{" "}
+              Untaboo
             </Link>
           </div>
 
-          {/* Buttons */}
+          {/* Buttons (Shown only when NOT logged in) */}
           <div className="flex items-center space-x-6">
             {!user ? (
               <>
                 <Link
-                  to="/Signup"
+                  to="/signup"
                   className="bg-white text-black px-4 py-2 text-lg rounded-full shadow-lg hover:text-indigo-600 transition duration-300"
                 >
                   Sign up
@@ -50,6 +49,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
+                {/* Show Dashboard and ProfilePopup when logged in */}
                 <Link
                   to="/patient-dashboard"
                   className="bg-blue-600 text-white px-4 py-2 text-lg rounded-full shadow-lg hover:bg-blue-800 transition duration-300"

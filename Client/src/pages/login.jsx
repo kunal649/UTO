@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext"; 
 import { useNavigate } from "react-router-dom";
-import GoogleLoginButton from "./GoogleLoginButton";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 const Login = () => {
   const { loginUser } = useAuth();
