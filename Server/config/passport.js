@@ -12,7 +12,8 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({ email: profile.emails[0].value });
+        console.log("Google Profile Data Received:", profile); //log
+        let user = await User.findOne({ googleId: profile.id });
         if (!user) {
           user = new User({
             googleId: profile.id,
@@ -22,12 +23,14 @@ passport.use(
             password: null,
           });
           await user.save();
+          console.log("User created : ", user); //log
         }
         const token = jwt.sign(
           { id: user._id, email: user.email },
           process.env.JWT_SECRET,
           { expiresIn: "2h" }
         );
+        console.log("Token created : ", token); //log
         return done(null, { user, token });
       } catch (error) {
         return done(error, null);
