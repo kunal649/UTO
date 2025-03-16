@@ -1,18 +1,18 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../../context/Authcontext";
 import { useNavigate } from "react-router-dom";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 const Login = () => {
   const { loginUser } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError(""); 
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -28,7 +28,7 @@ const Login = () => {
     setLoading(false);
 
     if (response.success) {
-      navigate("/"); 
+      navigate("/");
     } else {
       setError(response.message || "Invalid credentials!");
     }
@@ -40,13 +40,13 @@ const Login = () => {
         <h2 className="text-2xl font-bold text-center text-indigo-600">
           Log in
         </h2>
-        {error && <p className="text-red-500 text-center mt-2">{error}</p>} 
+        {error && <p className="text-red-500 text-center mt-2">{error}</p>}
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <input
             type="email"
             name="email"
-            placeholder="Enter Email" 
+            placeholder="Enter Email"
             required
             value={formData.email}
             onChange={handleChange}
@@ -70,7 +70,7 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Log in"}
           </button>
-          
+
           <GoogleLoginButton />
         </form>
       </div>
