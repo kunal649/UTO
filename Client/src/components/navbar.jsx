@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../App.css";
-import ProfilePopup from "./profile";
+import ProfilePopup from "../pages/hero/profile.jsx";
 import {
   FaHome,
   FaUserMd,
@@ -9,28 +7,21 @@ import {
   FaComments,
   FaEnvelope,
 } from "react-icons/fa";
-import Signup from "../pages/signup.jsx";
-import Login from "../pages/login.jsx";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/Authcontext.jsx";
 
 const Navbar = () => {
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [isLogInOpen, setIsLoginInOpen] = useState(false);
-  const { user } = useAuth(); // Get user from AuthContext
+  const { user, logoutUser } = useAuth(); // ✅ Get user state
 
   return (
     <div>
       {/* Top Bar with Logo and Buttons */}
-      <div className="fixed top-0 left-0 right-0 z-50 shadow-md py-4">
+      <div className="fixed top-0 left-0 right-0 z-50 py-4 ">
         <div className="container mx-auto flex justify-between items-center px-8">
-          {/* Logo Section */}
           <div className="text-3xl font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-blue-800 to-indigo-600">
-            <Link to="/" className="flex items-center">
-              Untaboo
-            </Link>
+            <Link to="/">Untaboo</Link>
           </div>
 
-          {/* Buttons (Shown only when NOT logged in) */}
+          {/* Buttons */}
           <div className="flex items-center space-x-6">
             {!user ? (
               <>
@@ -49,14 +40,22 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                {/* Show Dashboard and ProfilePopup when logged in */}
                 <Link
-                  to="/patient-dashboard"
+                  to="/discussion"
                   className="bg-blue-600 text-white px-4 py-2 text-lg rounded-full shadow-lg hover:bg-blue-800 transition duration-300"
                 >
-                  Dashboard
+                  Discussion
                 </Link>
+
+                {/* Profile Picture */}
                 <ProfilePopup />
+
+                <button
+                  onClick={logoutUser}
+                  className="bg-red-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-red-700 transition duration-300"
+                >
+                  Logout
+                </button>
               </>
             )}
           </div>
@@ -98,36 +97,6 @@ const Navbar = () => {
           </Link>
         </div>
       </nav>
-
-      {/* Signup Modal */}
-      {isSignupOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-            <button
-              onClick={() => setIsSignupOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-            >
-              ✖
-            </button>
-            <Signup />
-          </div>
-        </div>
-      )}
-
-      {/* Login Modal */}
-      {isLogInOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-            <button
-              onClick={() => setIsLoginInOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-            >
-              ✖
-            </button>
-            <Login />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

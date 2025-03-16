@@ -1,24 +1,22 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx";
+import Home from "./pages/hero/Home.jsx";
 import OurDoctors from "./pages/OurDoctors.jsx";
 import BlogComponent from "./pages/Discussion.jsx";
-import Signup from "./pages/signup.jsx";
-import Login from "./pages/login.jsx";
+import Signup from "./pages/Auth/signup.jsx";
+import Login from "./pages/Auth/login.jsx";
 
-import { AuthProvider } from "./context/AuthContext";
-import { useAuth } from "./context/AuthContext";
-
+import { AuthProvider } from "./context/Authcontext.jsx";
 import Navbar from "./components/navbar.jsx";
 import AppointmentPopup from "./components/AppointmentPopup.jsx";
-import ProfilePopup from "./components/profile.jsx";
 
 export default function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <AuthProvider>
+      {" "}
+      <BrowserRouter>
         <div className="relative">
           <Navbar />
           <Routes>
@@ -37,21 +35,8 @@ export default function App() {
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
           />
-          <UserAvatar />
         </div>
-      </AuthProvider>
-    </BrowserRouter>
-  );
-}
-
-function UserAvatar() {
-  const { user } = useAuth();
-
-  return (
-    user && (
-      <div className="fixed top-4 right-4">
-        <ProfilePopup />
-      </div>
-    )
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
