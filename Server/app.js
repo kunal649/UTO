@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const passport = require("passport");
 const api = require("./routes/api");
+const morgan = require("morgan");
 require("./config/passport");
 require("dotenv").config();
 
@@ -14,7 +15,7 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(morgan("combined"));
 app.use(express.json());
 app.use(cookieParser());
 
