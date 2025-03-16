@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/Authcontext";
 import { LogOut, TrendingUp, DollarSign, CreditCard } from "lucide-react";
 
 export default function ProfilePopup() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, logoutUser } = useAuth(); // Get user & logout function
+  const { user, logoutUser } = useAuth();
 
   const handleLogout = async () => {
     await logoutUser();
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
+
+  const profilePic = user?.profilePic || "https://avatars.githubusercontent.com/u/184921474?v=4";
+  const displayName = user?.name || user?.username || "John Doe";
+  const displayEmail = user?.email || "johndoe@example.com";
+
+  console.log("Profile Picture URL:", profilePic);
 
   return (
     <div className="relative">
@@ -22,12 +28,10 @@ export default function ProfilePopup() {
         className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex items-center justify-center"
       >
         <img
-          src={
-            user?.avatar ||
-            "https://avatars.githubusercontent.com/u/184921474?v=4"
-          }
+          src={profilePic}
           alt="User"
           className="w-full h-full object-cover"
+          style={{ width: "40px", height: "40px" }}
         />
       </button>
 
@@ -44,18 +48,19 @@ export default function ProfilePopup() {
               {/* Profile Picture */}
               <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-300">
                 <img
-                  src={user?.avatar || "/user-avatar.jpg"}
+                  src={profilePic}
                   alt="User"
                   className="w-full h-full object-cover"
+                  style={{ width: "64px", height: "64px" }}
                 />
               </div>
 
               {/* User Details */}
               <p className="text-lg font-semibold mt-2">
-                {user?.name || "John Doe"}
+                {displayName}
               </p>
               <p className="text-sm text-gray-500">
-                {user?.email || "johndoe@example.com"}
+                {displayEmail}
               </p>
 
               {/* Options */}

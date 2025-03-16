@@ -17,7 +17,7 @@ passport.use(
         if (!user) {
           user = new User({
             googleId: profile.id,
-            name: profile.displayName,
+            username: profile.displayName,
             email: profile.emails[0].value,
             profilePic: profile.photos[0].value,
             password: null,
@@ -47,13 +47,29 @@ const googleAuthenticator = (req, res, next) => {
 const googleCallback = (req, res, next) => {
   passport.authenticate("google", { session: false }, (err, data) => {
     if (err || !data) {
-      return res.redirect("http://localhost:5173");
+      console.log("Error in google callback: ", err); // log
+      return res.redirect("http://localhost:5173/login?error=true");
     }
-    res.cookie("token", data.token, { httpOnly: true, secure: false });
+    console.log("Authenticated User Data:", data); //log
+
+    res.cookie("token", data.token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Lax",
+    });
     return res.redirect("http://localhost:5173");
   })(req, res, next);
 };
+
+const googleAuthorized = (req, res) => {
+  console.log("Google Authorized");
+  res.json({ message: "Google Authorized" });
+};
+
 module.exports = {
   googleAuthenticator,
   googleCallback,
+  googleAuthorized,
 };
+
+//All logs checked :)

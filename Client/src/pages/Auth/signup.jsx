@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import { useAuth } from "../../context/Authcontext";
+import GoogleLoginButton from "./GoogleLoginButton";
 import axios from "axios";
 
 export default function Signup() {

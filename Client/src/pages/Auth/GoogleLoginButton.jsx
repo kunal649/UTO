@@ -1,7 +1,15 @@
+import { useAuth } from "../../context/Authcontext.jsx";
 
 const GoogleLoginButton = () => {
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/v1/google"; 
+  const { fetchUser } = useAuth();
+
+  const handleGoogleLogin = async () => {
+    window.location.href = "http://localhost:5000/v1/google";
+
+    // ✅ Wait for a second and try fetching the user
+    setTimeout(() => {
+      fetchUser(); // ✅ Now it will work
+    }, 2000);
   };
 
   return (
