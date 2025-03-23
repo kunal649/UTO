@@ -4,17 +4,16 @@ import axios from "axios";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Default state
+  const [user, setUser] = useState(null); 
 
-  // Define fetchUser in the outer scope so it can be reused
   const fetchUser = async () => {
     try {
       const response = await axios.get("http://localhost:5000/v1/user", {
-        withCredentials: true, // Ensures cookies are sent
+        withCredentials: true, 
       });
 
       if (response.data && response.data._id) {
-        setUser(response.data); // Store user in state if exists
+        setUser(response.data); 
       } else {
         setUser(null);
       }
@@ -24,12 +23,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Run fetchUser once on component mount
   useEffect(() => {
     fetchUser();
   }, []);
 
-  // Logout function
   const logoutUser = async () => {
     try {
       await axios.post(
@@ -50,5 +47,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Export useAuth hook for consuming the context
 export const useAuth = () => useContext(AuthContext);

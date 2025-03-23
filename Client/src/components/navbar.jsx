@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ProfilePopup from "../pages/hero/profile.jsx";
+import ProfilePopup from "../pages/Hero/profile.jsx";
 import {
   FaHome,
   FaUserMd,
@@ -78,7 +78,7 @@ const Navbar = () => {
             <FaUserMd className="text-4xl" />
           </Link>
           <Link
-            to="/services"
+            to="/Map"
             className="text-gray-700 hover:text-blue-600 transition duration-300"
           >
             <FaPodcast className="text-4xl" />
