@@ -6,11 +6,12 @@ import OurDoctors from "./pages/OurDoctors.jsx";
 import Signup from "./pages/Auth/signup.jsx";
 import Login from "./pages/Auth/login.jsx";
 import ProfessionalNgoMap from "./pages/Map.jsx";
-
+import AudioCommunitySection from "./pages/Discussion.jsx";
 import { AuthProvider } from "./context/Authcontext.jsx";
 import Navbar from "./components/navbar.jsx";
 import AppointmentPopup from "./components/AppointmentPopup.jsx";
 
+import "./App.css";
 export default function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/Discussion" element={<AudioCommunitySection />} />
             <Route
               path="/OurDoctors"
               element={
