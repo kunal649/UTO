@@ -13,4 +13,32 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  location: {
+    type: String,
+    required: true,
+  },
+  voiceId: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    default: "general",
+  },
+  duration: {
+    type: String,
+    default: "0:30",
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  comments: {
+    type: Number,
+    default: 0,
+  },
+  recordedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
