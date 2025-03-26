@@ -1,159 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-
-const styles = {
-  container: {
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "32px 16px",
-  },
-  heading: {
-    textAlign: "center",
-    marginBottom: "24px",
-  },
-  mainTitle: {
-    fontSize: "2rem",
-    fontWeight: "bold",
-    marginBottom: "8px",
-  },
-  subtitle: {
-    fontSize: "1.1rem",
-    color: "#718096",
-  },
-  card: {
-    backgroundColor: "white",
-    padding: "24px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    marginBottom: "32px",
-  },
-  subHeading: {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    marginBottom: "16px",
-  },
-  flexCenter: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "16px",
-    marginTop: "16px",
-  },
-  button: {
-    padding: "8px 16px",
-    borderRadius: "4px",
-    border: "none",
-    fontWeight: "500",
-    cursor: "pointer",
-  },
-  redButton: {
-    backgroundColor: "#E53E3E",
-    color: "white",
-  },
-  grayButton: {
-    backgroundColor: "#CBD5E0",
-    color: "black",
-  },
-  tealButton: {
-    backgroundColor: "#319795",
-    color: "white",
-  },
-  select: {
-    width: "100%",
-    padding: "8px",
-    borderRadius: "4px",
-    border: "1px solid #E2E8F0",
-    marginBottom: "16px",
-  },
-  storyCard: {
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "8px",
-    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-    borderLeft: "4px solid #319795",
-    marginBottom: "16px",
-  },
-  storyHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "8px",
-  },
-  storyTitle: {
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-  },
-  badge: {
-    backgroundColor: "#E6FFFA",
-    color: "#319795",
-    padding: "2px 8px",
-    borderRadius: "9999px",
-    fontSize: "0.8rem",
-  },
-  metaText: {
-    fontSize: "0.875rem",
-    color: "#718096",
-    marginBottom: "12px",
-  },
-  buttonGroup: {
-    display: "flex",
-    gap: "8px",
-    marginBottom: "16px",
-  },
-  outlineButton: {
-    backgroundColor: "transparent",
-    border: "1px solid #CBD5E0",
-    padding: "4px 12px",
-    borderRadius: "4px",
-    fontSize: "0.875rem",
-  },
-  ghostButton: {
-    backgroundColor: "transparent",
-    border: "none",
-    padding: "4px 12px",
-    fontSize: "0.875rem",
-  },
-  divider: {
-    margin: "12px 0",
-    border: "none",
-    borderTop: "1px solid rgba(0, 0, 0, 0.1)",
-  },
-  transcriptBox: {
-    backgroundColor: "#F7FAFC",
-    padding: "12px",
-    borderRadius: "4px",
-  },
-  transcriptTitle: {
-    fontSize: "0.875rem",
-    fontWeight: "bold",
-    marginBottom: "8px",
-  },
-  notification: {
-    position: "fixed",
-    top: "20px",
-    right: "20px",
-    zIndex: "9999",
-    maxWidth: "300px",
-    borderRadius: "4px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    padding: "12px",
-    color: "white",
-  },
-  infoNotification: {
-    backgroundColor: "#3182CE",
-  },
-  successNotification: {
-    backgroundColor: "#38A169",
-  },
-  errorNotification: {
-    backgroundColor: "#E53E3E",
-  },
-  notificationTitle: {
-    fontSize: "1rem",
-    fontWeight: "bold",
-    marginBottom: "4px",
-  },
-  notificationText: {
-    fontSize: "0.875rem",
-  },
-};
+import axios from "axios";
 
 function AudioCommunitySection() {
   const [isRecording, setIsRecording] = useState(false);
@@ -163,6 +9,7 @@ function AudioCommunitySection() {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
   const [notification, setNotification] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -178,7 +25,7 @@ function AudioCommunitySection() {
     }, 3000);
   };
 
-  // Mock AI voice options , we'll update these by our own
+  // AI voice options
   const aiVoices = [
     { id: "voice1", name: "Neutral Voice", gender: "neutral" },
     { id: "voice2", name: "Female Voice 1", gender: "female" },
@@ -187,54 +34,26 @@ function AudioCommunitySection() {
   ];
   const [selectedVoice, setSelectedVoice] = useState(aiVoices[0].id);
 
-  // Mock stories data (would be fetched from API in real app)
-  const mockStories = [
-    {
-      id: 1,
-      title: "Overcoming Menstruation Taboo",
-      recordedAt: new Date(Date.now() - 86400000 * 2),
-      category: "menstruation",
-      location: "Delhi",
-      audioUrl: "https://example.com/audio1.mp3", // Placeholder
-      transcription:
-        "Growing up, menstruation was never discussed in my house. When I got my first period, I was scared and confused. My mother only gave me some cloth pads and told me not to talk about it. I wasn't allowed to enter the kitchen or temple during those days. As I grew older, I educated myself about menstrual hygiene and started challenging these taboos in my family.",
-      likes: 42,
-      comments: 15,
-      voiceId: "voice2",
-      duration: "2:48",
-    },
-    {
-      id: 2,
-      title: "Mental Health Journey",
-      recordedAt: new Date(Date.now() - 86400000 * 5),
-      category: "mental-health",
-      location: "Mumbai",
-      audioUrl: "https://example.com/audio2.mp3", // Placeholder
-      transcription:
-        "I struggled with depression for years in silence. In our community, mental health issues are seen as a weakness or character flaw. Seeking therapy was one of the hardest decisions I made because I worried about the judgment from family members. But after getting proper treatment, I started speaking openly about my journey, which inspired others in my community to seek help too.",
-      likes: 36,
-      comments: 8,
-      voiceId: "voice3",
-      duration: "3:15",
-    },
-    {
-      id: 3,
-      title: "Breaking the Silence on Infertility",
-      recordedAt: new Date(Date.now() - 86400000 * 12),
-      category: "reproductive-health",
-      location: "Bangalore",
-      audioUrl: "https://example.com/audio3.mp3", // Placeholder
-      transcription:
-        "After five years of marriage, I faced constant pressure and questioning about when we would have a child. No one considered that we might be struggling with infertility, which is rarely discussed openly. My husband and I went through treatments secretly at first. Eventually, I decided to share our journey, and was surprised by how many others were going through similar experiences in silence.",
-      likes: 58,
-      comments: 27,
-      voiceId: "voice2",
-      duration: "4:10",
-    },
-  ];
+  // Fetch stories from the backend
+  const fetchStories = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/v1/stories");
+      setStories(Array.isArray(response.data) ? response.data : []);
+    } catch (error) {
+      console.error("Error fetching stories:", error);
+      setStories([]);
+      showNotification(
+        "Error",
+        "Failed to load stories. Please try again later.",
+        "error"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    // In a real app, we'll fetch stories from API
-    setStories(mockStories);
+    fetchStories();
   }, []);
 
   const startRecording = async () => {
@@ -282,122 +101,156 @@ function AudioCommunitySection() {
     }
   };
 
-  const processAudio = () => {
-    //      Server Side Work
-    // In a real app, this would:
-    // 1. Upload the audio to the server
-    // 2. Process it for transcription
-    // 3. Convert to an AI voice
-    // 4. Save to database
+  const processAudio = async () => {
+    if (!audioBlob) return;
 
     setProcessing(true);
+    try {
+      const formData = new FormData();
+      formData.append("audio", audioBlob);
+      formData.append("voiceId", selectedVoice);
 
-    // Simulate API call with timeout
-    setTimeout(() => {
-      const newStory = {
-        id: stories.length + 1,
-        title: "My Personal Experience",
-        recordedAt: new Date(),
-        category: "general",
-        location: "User Location",
-        audioUrl: URL.createObjectURL(audioBlob), // In real app, this would be a server URL
-        transcription:
-          "This is a simulated transcription of the recorded audio. In a real application, this would be generated through speech-to-text technology and the audio would be converted using AI voice for anonymity.",
-        likes: 0,
-        comments: 0,
-        voiceId: selectedVoice,
-        duration: "0:30",
-      };
+      const response = await axios.post(
+        "http://localhost:5000/v1/process-audio",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      setStories([newStory, ...stories]);
+      // Add new story to the list
+      setStories([response.data, ...stories]);
       setAudioBlob(null);
-      setProcessing(false);
 
       showNotification(
         "Success!",
         "Your story has been processed and shared anonymously.",
         "success"
       );
-    }, 2000);
-  };
-
-  const playAudio = (storyId) => {
-    // In a real app, this would play the actual audio file
-    setCurrentlyPlaying(storyId === currentlyPlaying ? null : storyId);
-
-    if (audioPlayerRef.current) {
-      if (storyId === currentlyPlaying) {
-        audioPlayerRef.current.pause();
-      } else {
-        // Simulate playing a different audio file
-        const story = stories.find((s) => s.id === storyId);
-        if (story && story.audioUrl) {
-          // In a real implementation, audioPlayerRef would be set to the actual audio element
-          showNotification(
-            "Playing audio",
-            `Now playing: ${story.title} with ${
-              aiVoices.find((v) => v.id === story.voiceId)?.name ||
-              "Anonymous Voice"
-            }`,
-            "info"
-          );
-        }
-      }
+    } catch (error) {
+      console.error("Error processing audio:", error);
+      showNotification(
+        "Error",
+        "Failed to process audio. Please try again.",
+        "error"
+      );
+    } finally {
+      setProcessing(false);
     }
   };
 
-  const likeStory = (storyId) => {
-    setStories(
-      stories.map((story) =>
-        story.id === storyId ? { ...story, likes: story.likes + 1 } : story
-      )
-    );
+  const playAudio = async (storyId) => {
+    try {
+      if (storyId === currentlyPlaying) {
+        audioPlayerRef.current?.pause();
+        setCurrentlyPlaying(null);
+        return;
+      }
+
+      const story = stories.find((s) => s._id === storyId);
+      if (!story?.audioUrl) {
+        showNotification("Error", "Audio not available", "error");
+        return;
+      }
+
+      // Create a new audio element for playing the story's audio
+      const audioElement = new Audio(story.audioUrl);
+      audioElement.onended = () => setCurrentlyPlaying(null);
+      audioElement.onerror = () => {
+        showNotification("Error", "Failed to play audio", "error");
+        setCurrentlyPlaying(null);
+      };
+
+      // Play the audio
+      audioPlayerRef.current = audioElement;
+      audioElement.play();
+      setCurrentlyPlaying(storyId);
+
+      showNotification(
+        "Playing audio",
+        `Now playing: ${story.title} with ${
+          aiVoices.find((v) => v.id === story.voiceId)?.name ||
+          "Anonymous Voice"
+        }`,
+        "info"
+      );
+    } catch (error) {
+      console.error("Error playing audio:", error);
+      showNotification("Error", "Failed to play audio", "error");
+    }
+  };
+
+  const likeStory = async (storyId) => {
+    try {
+      await axios.post(`http://localhost:5000/v1/stories/${storyId}/like`);
+      setStories(
+        stories.map((story) =>
+          story._id === storyId ? { ...story, likes: story.likes + 1 } : story
+        )
+      );
+    } catch (error) {
+      console.error("Error liking story:", error);
+      showNotification("Error", "Failed to like story", "error");
+    }
   };
 
   const filterStories = (stories) => {
+    if (!Array.isArray(stories)) return [];
     if (selectedFilter === "all") return stories;
     return stories.filter((story) => story.category === selectedFilter);
   };
 
   // Get notification style based on status
-  const getNotificationStyle = (status) => {
-    if (status === "error")
-      return { ...styles.notification, ...styles.errorNotification };
-    if (status === "success")
-      return { ...styles.notification, ...styles.successNotification };
-    return { ...styles.notification, ...styles.infoNotification };
+  const getNotificationClasses = (status) => {
+    const baseClasses =
+      "fixed top-5 right-5 z-50 max-w-sm rounded shadow-lg p-3 text-white";
+    if (status === "error") return `${baseClasses} bg-red-500`;
+    if (status === "success") return `${baseClasses} bg-green-500`;
+    return `${baseClasses} bg-blue-500`;
   };
 
+  const filteredStories = filterStories(stories);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
   return (
-    <div style={styles.container}>
+    <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Notification display */}
       {notification && (
-        <div style={getNotificationStyle(notification.status)}>
-          <div style={styles.notificationTitle}>{notification.title}</div>
-          <div style={styles.notificationText}>{notification.description}</div>
+        <div className={getNotificationClasses(notification.status)}>
+          <div className="font-bold mb-1">{notification.title}</div>
+          <div className="text-sm">{notification.description}</div>
         </div>
       )}
 
-      <div style={styles.heading}>
-        <h1 style={styles.mainTitle}>
+      <div className="text-center mb-6">
+        <h1 className="text-4xl font-bold mb-2">
           Voice of Change: Anonymous Audio Community
         </h1>
-        <p style={styles.subtitle}>
+        <p className="text-lg text-gray-600">
           Share your experiences, listen to others, and break the silence around
           taboos
         </p>
       </div>
 
       {/* Recording Section */}
-      <div style={styles.card}>
-        <h3 style={styles.subHeading}>Share Your Experience</h3>
-        <p>
+      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h3 className="text-2xl font-bold mb-4">Share Your Experience</h3>
+        <p className="mb-4">
           Record your voice and we&apos;ll convert it to an anonymous AI voice
           to protect your identity
         </p>
 
         <select
-          style={styles.select}
+          className="w-full p-2 rounded border border-gray-300 mb-4"
           value={selectedVoice}
           onChange={(e) => setSelectedVoice(e.target.value)}
           disabled={isRecording || processing}
@@ -409,10 +262,10 @@ function AudioCommunitySection() {
           ))}
         </select>
 
-        <div style={styles.flexCenter}>
+        <div className="flex justify-center gap-4">
           {!isRecording ? (
             <button
-              style={{ ...styles.button, ...styles.redButton }}
+              className="px-4 py-2 rounded bg-red-500 text-white font-medium hover:bg-red-600 disabled:opacity-50"
               onClick={startRecording}
               disabled={processing}
             >
@@ -420,7 +273,7 @@ function AudioCommunitySection() {
             </button>
           ) : (
             <button
-              style={{ ...styles.button, ...styles.grayButton }}
+              className="px-4 py-2 rounded bg-gray-300 text-gray-800 font-medium hover:bg-gray-400"
               onClick={stopRecording}
             >
               ⏹️ Stop Recording
@@ -429,19 +282,15 @@ function AudioCommunitySection() {
         </div>
 
         {audioBlob && (
-          <div style={{ ...styles.flexCenter, flexDirection: "column" }}>
+          <div className="flex flex-col items-center mt-4">
             <audio
               ref={audioPlayerRef}
               controls
               src={URL.createObjectURL(audioBlob)}
-              style={{ marginTop: "16px", width: "100%" }}
+              className="w-full mt-4"
             />
             <button
-              style={{
-                ...styles.button,
-                ...styles.tealButton,
-                marginTop: "16px",
-              }}
+              className="px-4 py-2 rounded bg-teal-500 text-white font-medium hover:bg-teal-600 disabled:opacity-50 mt-4"
               onClick={processAudio}
               disabled={processing}
             >
@@ -453,17 +302,10 @@ function AudioCommunitySection() {
 
       {/* Browse Stories Section */}
       <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "16px",
-          }}
-        >
-          <h3 style={styles.subHeading}>Community Stories</h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-2xl font-bold">Community Stories</h3>
           <select
-            style={{ ...styles.select, width: "200px", marginBottom: 0 }}
+            className="w-48 p-2 rounded border border-gray-300"
             value={selectedFilter}
             onChange={(e) => setSelectedFilter(e.target.value)}
           >
@@ -475,45 +317,58 @@ function AudioCommunitySection() {
           </select>
         </div>
 
-        <div>
-          {filterStories(stories).map((story) => (
-            <div key={story.id} style={styles.storyCard}>
-              <div style={styles.storyHeader}>
-                <h4 style={styles.storyTitle}>{story.title}</h4>
-                <span style={styles.badge}>{story.category}</span>
+        <div className="space-y-4">
+          {filteredStories.map((story) => (
+            <div
+              key={story._id}
+              className="bg-white p-5 rounded-lg shadow-sm border-l-4 border-teal-500"
+            >
+              <div className="flex justify-between items-center mb-2">
+                <h4 className="text-xl font-bold">{story.title}</h4>
+                <span className="px-2 py-1 rounded-full text-sm bg-teal-50 text-teal-600">
+                  {story.category}
+                </span>
               </div>
 
-              <p style={styles.metaText}>
-                Shared from {story.location} • {story.recordedAt.toDateString()}{" "}
-                • Using{" "}
+              <p className="text-sm text-gray-600 mb-3">
+                Shared from {story.location} •{" "}
+                {new Date(story.recordedAt).toLocaleDateString()} • Using{" "}
                 {aiVoices.find((v) => v.id === story.voiceId)?.name ||
                   "Anonymous Voice"}
               </p>
 
-              <div style={styles.buttonGroup}>
-                <button
-                  style={styles.outlineButton}
-                  onClick={() => playAudio(story.id)}
-                >
-                  {currentlyPlaying === story.id ? "⏸️ Pause" : "▶️ Listen"} (
-                  {story.duration})
-                </button>
+              <div className="flex flex-col gap-2 mb-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+                    onClick={() => playAudio(story._id)}
+                  >
+                    {currentlyPlaying === story._id ? "⏸️ Pause" : "▶️ Listen"}{" "}
+                    ({story.duration})
+                  </button>
 
-                <button
-                  style={styles.ghostButton}
-                  onClick={() => likeStory(story.id)}
-                >
-                  👍 {story.likes}
-                </button>
+                  <button
+                    className="px-3 py-1 hover:text-gray-600"
+                    onClick={() => likeStory(story._id)}
+                  >
+                    👍 {story.likes}
+                  </button>
 
-                <button style={styles.ghostButton}>💬 {story.comments}</button>
+                  <button className="px-3 py-1 hover:text-gray-600">
+                    💬 {story.comments}
+                  </button>
+                </div>
+
+                {story.audioUrl && (
+                  <audio controls src={story.audioUrl} className="w-full h-8" />
+                )}
               </div>
 
-              <hr style={styles.divider} />
+              <hr className="my-3 border-gray-200" />
 
-              <div style={styles.transcriptBox}>
-                <h5 style={styles.transcriptTitle}>Transcription</h5>
-                <p style={{ fontSize: "0.875rem" }}>{story.transcription}</p>
+              <div className="bg-gray-50 p-3 rounded">
+                <h5 className="font-bold mb-2">Transcription</h5>
+                <p className="text-sm">{story.transcription}</p>
               </div>
             </div>
           ))}
