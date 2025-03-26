@@ -1,6 +1,9 @@
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const express = require("express");
+const Story = require("../../models/story.js");
+const aiService = require("../../services/aiService.js");
 
 const discussionRouter = express.Router();
 
@@ -80,7 +83,7 @@ discussionRouter.get("/stories", async (req, res) => {
   try {
     const stories = await Story.find().sort({ recordedAt: -1 });
     res.json(stories);
-  } catch {
+  } catch (error) {
     console.error("Error fetching stories:", error);
     res.status(500).json({ error: "Failed to fetch stories" });
   }
