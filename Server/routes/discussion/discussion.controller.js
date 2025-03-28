@@ -1,19 +1,15 @@
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
 const express = require("express");
-const Story = require("../../models/story.js");
-const aiService = require("../../services/aiService.js");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const aiService = require("../services/aiService");
+const Story = require("../../models/story");
 
 const discussionRouter = express.Router();
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = "uploads/";
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir);
-    }
-    cb(null, uploadDir);
+    cb(null, path.join(__dirname, "../uploads"));
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -22,56 +18,55 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith("audio/")) {
       cb(null, true);
     } else {
-      cb(new Error("Only audio files are allowed."));
+      cb(new Error("Not an audio file! Please upload an audio file."), false);
     }
   },
 });
 
+// Process audio and create story
 discussionRouter.post(
   "/process-audio",
   upload.single("audio"),
   async (req, res) => {
     try {
       if (!req.file) {
-        return res.status(400).json({ error: "No audio file provided" });
+        return res.status(400).json({ error: "No audio file uploaded" });
       }
 
-      const audioFile = req.file.path;
-      const selectedVoice = req.body.voiceId;
-      const location = req.body.location || "Unknown Location";
+      const { transcription, isAnonymous, voiceId } = req.body;
+      const isAnonymousBool = isAnonymous === "true";
 
-      const transcription = await aiService.transcribeAudio(audioFile);
-
-      const cleanedTranscription = await aiService.cleanTranscription(
-        transcription
+      // Process audio (direct or anonymous)
+      const audioUrl = await aiService.processAudio(
+        req.file.buffer,
+        isAnonymousBool,
+        voiceId
       );
 
-      const audioUrl = await aiService.uploadToCloud(audioFile);
+      // Generate title and detect category
+      const title = await aiService.generateTitle(transcription);
+      const category = await aiService.detectCategory(transcription);
 
-      const title = await aiService.generateTitle(cleanedTranscription);
-      const category = await aiService.detectCategory(cleanedTranscription);
-
+      // Create new story
       const story = new Story({
         title,
         audioUrl,
-        transcription: cleanedTranscription,
-        location,
-        voiceId: selectedVoice,
+        transcription,
+        voiceId: isAnonymousBool ? voiceId : "original",
         category,
-        duration: "0:30", // using default duration fn/ will update it later
+        duration: "0:30", // You might want to calculate this from the audio file
       });
 
       await story.save();
-      fs.unlinkSync(audioFile);
 
-      res.json(story);
+      // Clean up uploaded file
+      await fs.promises.unlink(req.file.path);
+
+      res.status(201).json(story);
     } catch (error) {
       console.error("Error processing audio:", error);
       res.status(500).json({ error: "Failed to process audio" });
@@ -79,6 +74,7 @@ discussionRouter.post(
   }
 );
 
+// Get all stories
 discussionRouter.get("/stories", async (req, res) => {
   try {
     const stories = await Story.find().sort({ recordedAt: -1 });
@@ -89,14 +85,17 @@ discussionRouter.get("/stories", async (req, res) => {
   }
 });
 
-discussionRouter.post("/stories/id:/like", async (req, res) => {
+// Like a story
+discussionRouter.post("/stories/:id/like", async (req, res) => {
   try {
     const story = await Story.findById(req.params.id);
     if (!story) {
       return res.status(404).json({ error: "Story not found" });
     }
+
     story.likes += 1;
     await story.save();
+
     res.json(story);
   } catch (error) {
     console.error("Error liking story:", error);
