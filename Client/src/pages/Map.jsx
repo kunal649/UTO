@@ -74,7 +74,7 @@ function HeatMapLayer() {
 }
 
 const ProfessionalNgoMap = () => {
-  // Verified Indian NGO coordinates
+  
   const mockNgos = [
     { id: 1, name: "Delhi NGO (High Taboo Area)", location: [28.6139, 77.209] }, // Delhi
     {
